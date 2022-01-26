@@ -970,7 +970,7 @@ class HumanoidStablePD(object):
     
     return reward
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
   def computeCOMposVel(self, uid: int):
     """Compute center-of-mass position and velocity."""
     pb = self._pybullet_client
@@ -989,8 +989,7 @@ class HumanoidStablePD(object):
     com_pos = np.sum(masses * link_pos, axis=0) / tot_mass
     com_vel = np.sum(masses * link_vel, axis=0) / tot_mass
     return com_pos, com_vel
-=======
+#=======
   def getSimModelBasePosition(self):
-    return  self._pybullet_client\
-                .getBasePositionAndOrientation(self._sim_model)
->>>>>>> a2d2a8edc0132f777919cc8bea3ba9ff0459cf83
+    return  self._pybullet_client.getBasePositionAndOrientation(self._sim_model)
+#>>>>>>> a2d2a8edc0132f777919cc8bea3ba9ff0459cf83
