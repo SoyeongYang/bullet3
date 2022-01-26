@@ -152,6 +152,7 @@ class HumanoidStablePD(object):
     self._useComReward = useComReward
 
     self.resetPose()
+    self.thrown_body_ids = []
 
   def resetPose(self):
     #print("resetPose with self._frame=", self._frame, " and self._frameFraction=",self._frameFraction)
@@ -709,6 +710,9 @@ class HumanoidStablePD(object):
       #ignore self-collision
       if (p[1] == p[2]):
         continue
+      # ignore collisions with thrown objects
+      if p[1] in self.thrown_body_ids or p[2] in self.thrown_body_ids:
+        continue
       if (p[1] == self._sim_model):
         part = p[3]
       if (p[2] == self._sim_model):
@@ -966,6 +970,7 @@ class HumanoidStablePD(object):
     
     return reward
 
+<<<<<<< HEAD
   def computeCOMposVel(self, uid: int):
     """Compute center-of-mass position and velocity."""
     pb = self._pybullet_client
@@ -984,3 +989,8 @@ class HumanoidStablePD(object):
     com_pos = np.sum(masses * link_pos, axis=0) / tot_mass
     com_vel = np.sum(masses * link_vel, axis=0) / tot_mass
     return com_pos, com_vel
+=======
+  def getSimModelBasePosition(self):
+    return  self._pybullet_client\
+                .getBasePositionAndOrientation(self._sim_model)
+>>>>>>> a2d2a8edc0132f777919cc8bea3ba9ff0459cf83
