@@ -353,8 +353,7 @@ class PyBulletDeepMimicEnv(Env):
     distance = 3.0
     rand_angle = r * 2 * math.pi - math.pi
 
-    position, orientation = \
-      self._humanoid.getSimModelBasePosition()
+    position, orientation = self._humanoid.getSimModelBasePosition()
 
     # Remember, in bullet: Y direction is "up". X and Z direction are
     # in the horizontal plane.
