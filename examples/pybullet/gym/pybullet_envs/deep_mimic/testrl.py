@@ -103,15 +103,15 @@ if __name__ == '__main__':
 
     if world.env.isKeyTriggered(keys, ' '):
       animating = not animating
-<<<<<<< HEAD
+#<<<<<<< HEAD
     if world.env.isKeyTriggered(keys, 'i'):
       step = True
     if (animating or step):
-=======
+#=======
     if world.env.isKeyTriggered(keys, 'x'):
       # print("Throwing object.")
       world.env.hitWithObject()
     if (animating):
->>>>>>> a2d2a8edc0132f777919cc8bea3ba9ff0459cf83
+#>>>>>>> a2d2a8edc0132f777919cc8bea3ba9ff0459cf83
       update_world(world, timeStep)
       step = False
