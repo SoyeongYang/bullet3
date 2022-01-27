@@ -21,7 +21,7 @@
 
 --char_ctrls ct_pd
 --char_ctrl_files data/controllers/humanoid3d_ctrl.txt
---motion_file data/motions/walker/
+--motion_file data/motions/walker/walk_forward0.txt
 --sync_char_root_pos true
 --sync_char_root_rot false
 
