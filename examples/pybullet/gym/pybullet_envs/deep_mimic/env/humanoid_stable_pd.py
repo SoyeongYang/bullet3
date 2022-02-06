@@ -28,7 +28,7 @@ class HumanoidStablePD(object):
     print("LOADING humanoid!")
     flags=self._pybullet_client.URDF_MAINTAIN_LINK_ORDER+self._pybullet_client.URDF_USE_SELF_COLLISION+self._pybullet_client.URDF_USE_SELF_COLLISION_EXCLUDE_ALL_PARENTS
     self._sim_model = self._pybullet_client.loadURDF(
-        "humanoid/humanoid.urdf", [0, 0.889540259, 0],
+        "humanoid/humanoid.urdf", [0, 0.85, 0],
         globalScaling=0.25,
         useFixedBase=useFixedBase,
         flags=flags)
@@ -159,6 +159,7 @@ class HumanoidStablePD(object):
     pose = self.computePose(self._frameFraction)
     self.initializePose(self._poseInterpolator, self._sim_model, initBase=True)
     self.initializePose(self._poseInterpolator, self._kin_model, initBase=False)
+    #self.initializePose(self._poseInterpolator, self._kin_model, initBase=True)
 
   def initializePose(self, pose, phys_model, initBase, initializeVelocity=True):
     
