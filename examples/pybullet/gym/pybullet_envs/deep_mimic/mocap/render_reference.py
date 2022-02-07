@@ -37,7 +37,7 @@ parser.add_argument(
     default='data/Walking.json',
     type=str,
     help='json file path for storing the deepmimic-format json created by inverse-kinect.')
-parser.add_argument('--fps', default=24, type=int, help='frame per second')
+parser.add_argument('--fps', default=60, type=int, help='frame per second')
 parser.add_argument('--subject', default='S11', type=str, help='camera subject.')
 parser.add_argument('--action', default='Walking', type=str, help='name of the action.')
 parser.add_argument('--loop',
@@ -79,7 +79,8 @@ def draw_ground_truth(coord_seq, frame, duration, shift):
 
 
 dataset = init_fb_h36m_dataset(dataset_path)
-ground_truth = pose3D_from_fb_h36m(dataset, subject=subject, action=action, shift=[1.0, 0.0, 0.0])
+#ground_truth = pose3D_from_fb_h36m(dataset, subject=subject, action=action, shift=[1.0, 0.0, 0.0])
+ground_truth = pose3D_from_fb_h36m(dataset, subject=subject, action=action, shift=[1.0, -0.1, 0.0])
 
 rot_seq = coord_seq_to_rot_seq(coord_seq=ground_truth, frame_duration=1 / fps)
 
