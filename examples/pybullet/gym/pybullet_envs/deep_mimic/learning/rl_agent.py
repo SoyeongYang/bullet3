@@ -16,6 +16,7 @@ from pybullet_envs.deep_mimic.learning.path import *
 from pybullet_envs.deep_mimic.learning.exp_params import ExpParams
 from pybullet_envs.deep_mimic.learning.normalizer import Normalizer
 from pybullet_envs.deep_mimic.learning.replay_buffer import ReplayBuffer
+#from pybullet_envs.deep_mimic.learning.rl_world import RLWorld
 from pybullet_utils.logger import Logger
 import pybullet_utils.mpi_util as MPIUtil
 import pybullet_utils.math_util as MathUtil
@@ -562,6 +563,18 @@ class RLAgent(ABC):
 
           self._update_iter(self.iter + 1)
           self._train_step()
+          
+          # log_tabular에 저장하는 것들을 tensorboard에도 저장하도록
+          self.logger.log_tb("Iteration", self.iter)
+          self.logger.log_tb("Wall_Time", wall_time)
+          self.logger.log_tb("Samples", self._total_sample_count)
+          self.logger.log_tb("Train_Return", avg_train_return)
+          self.logger.log_tb("Test_Return", self.avg_test_return)
+          self.logger.log_tb("State_Mean", s_mean)
+          self.logger.log_tb("Stable_Std", s_std)
+          self.logger.log_tb("Goal_Mean", g_mean)
+          self.logger.log_tb("Goal_Std", g_std)
+          self.logger.tb_add_summary(self.iter)
 
           Logger.print2("Agent " + str(self.id))
           self.logger.print_tabular()

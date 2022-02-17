@@ -55,6 +55,16 @@ class TFAgent(RLAgent):
         '/agent{:d}_models/agent{:d}_int_model_{:010d}.ckpt').format(self.id, self.id, self.iter)
     return file_path
 
+  def get_log_dir(self):  # log_dir이라는 property를 RLWorld로부터 넘겨받음
+    return self._log_dir
+
+  def set_log_dir(self, log_dir):
+    self._log_dir = log_dir
+    self.logger.configure_tensorboard(log_dir)
+    return
+  
+  log_dir = property(get_log_dir, set_log_dir)
+
   def _build_graph(self, json_data):
     with self.sess.as_default(), self.graph.as_default():
       with tf.variable_scope(self.tf_scope):

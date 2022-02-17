@@ -52,7 +52,7 @@ class RLWorld(object):
     self.env.shutdown()
     return
 
-  def build_agents(self):
+  def build_agents(self):  # agent0_log.txt와 학습된 모델 ckpt 파일 등이 저장되는 output_path를 지정해 agent에게, agent의 logger에게 넘겨주는 함수
     num_agents = self.env.get_num_agents()
     print("num_agents=", num_agents)
     self.agents = []
@@ -69,6 +69,7 @@ class RLWorld(object):
 
     output_path = self.arg_parser.parse_string('output_path')
     int_output_path = self.arg_parser.parse_string('int_output_path')
+    log_path = self.arg_parser.parse_string('log_path', default = output_path+"/logs")
 
     for i in range(num_agents):
       curr_file = agent_files[i]
@@ -77,6 +78,7 @@ class RLWorld(object):
       if curr_agent is not None:
         curr_agent.output_dir = output_path
         curr_agent.int_output_dir = int_output_path
+        curr_agent.log_dir = log_path  # agent에게 log_path 넘겨주기
         Logger.print2(str(curr_agent))
 
         if (len(model_files) > 0):

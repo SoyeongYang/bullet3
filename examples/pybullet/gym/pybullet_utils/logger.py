@@ -15,6 +15,10 @@ A['EpRewMean']
 """
 
 import os.path as osp, shutil, time, atexit, os, subprocess
+try:
+  import tensorflow.compat.v1 as tf
+except Exception:
+  import tensorflow as tf
 
 
 class Logger:
@@ -30,6 +34,41 @@ class Logger:
     self.log_headers = []
     self.log_current_row = {}
     self._dump_str_template = ""
+    self._tb_dir = ""  # 로그를 저장할 폴더 경로
+    self.summary_writer = None  # 로그를 기록할 FileWriter
+    return
+
+  def configure_tensorboard(self, log_dir):  # 로그를 저장하는 데 필요한 graph와 session, 그리고 기타 등등 필요한 것들을 Logger의 property로 만들어두는 함수
+    self.tb_first_row = True
+    self.summary_graph = tf.Graph()
+    self.summary_sess = tf.Session(graph = self.summary_graph)
+    self.summary_writer = tf.summary.FileWriter(log_dir)
+    self.key2idx = {}
+    self.feed_dict = {}
+    self.placeholders = []
+    self.scalars = []
+    return
+
+  def log_tb(self, key, val):  # 값을 받아 로그로 기록해두는 함수
+    if (MPIUtil.is_root_proc()):
+      if self.tb_first_row:
+        if key not in self.key2idx:
+          with self.summary_graph.as_default():
+            self.placeholders.append(tf.placeholder(dtype = tf.float32))
+            self.scalars.append(tf.summary.scalar(name=key, tensor=self.placeholders[-1]))
+          self.key2idx[key] = len(self.placeholders) - 1
+      self.feed_dict[self.placeholders[self.key2idx[key]]] = val
+    return
+
+  def tb_add_summary(self, iter):  # 매 iteration마다 기록된 로그를 묶어 summary로 저장하는 함수
+    if (MPIUtil.is_root_proc()):
+      if self.tb_first_row:
+        self.tb_first_row = False
+        with self.summary_graph.as_default():
+          self.summaries = tf.summary.merge_all()
+        # self.summaries = tf.summary.merge_all()
+      summary = self.summary_sess.run(self.summaries, feed_dict=self.feed_dict)
+      self.summary_writer.add_summary(summary, global_step=iter)
     return
 
   def reset(self):

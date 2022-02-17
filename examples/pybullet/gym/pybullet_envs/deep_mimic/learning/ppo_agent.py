@@ -285,6 +285,14 @@ class PPOAgent(PGAgent):
     self.logger.log_tabular('Clip_Frac', actor_clip_frac)
     self.logger.log_tabular('Adv_Mean', adv_mean)
     self.logger.log_tabular('Adv_Std', adv_std)
+    
+    self.logger.log_tb('Critic_Loss', critic_loss)
+    self.logger.log_tb('Critic_Stepsize', critic_stepsize)
+    self.logger.log_tb('Actor_Loss', actor_loss)
+    self.logger.log_tb('Actor_Stepsize', actor_stepsize)
+    self.logger.log_tb('Clip_Frac', actor_clip_frac)
+    self.logger.log_tb('Adv_Mean', adv_mean)
+    self.logger.log_tb('Adv_Std', adv_std)
 
     self.replay_buffer.clear()
 
