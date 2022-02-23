@@ -565,9 +565,9 @@ class RLAgent(ABC):
           self._train_step()
           
           # log_tabular에 저장하는 것들을 tensorboard에도 저장하도록
-          self.logger.log_tb("Iteration", self.iter)
+          self.logger.log_tb("Iteration", self.iter * 0.001)
           self.logger.log_tb("Wall_Time", wall_time)
-          self.logger.log_tb("Samples", self._total_sample_count)
+          self.logger.log_tb("Samples", self._total_sample_count * 0.000001)
           self.logger.log_tb("Train_Return", avg_train_return)
           self.logger.log_tb("Test_Return", self.avg_test_return)
           self.logger.log_tb("State_Mean", s_mean)
